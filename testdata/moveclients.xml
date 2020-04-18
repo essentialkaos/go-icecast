@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<iceresponse>
+  <message>Clients moved from /source1.ogg to /source2.ogg</message>
+  <return>1</return>
+</iceresponse>
