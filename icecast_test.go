@@ -154,3 +154,39 @@ func (s *IcecastSuite) TestListenersListParser(c *C) {
 	c.Assert(listeners[1].Lag, Equals, 0)
 	c.Assert(listeners[1].Connected, Equals, 312)
 }
+
+func (s *IcecastSuite) TestMetadataResponseParser(c *C) {
+	data, err := ioutil.ReadFile("testdata/metadata.xml")
+
+	c.Assert(err, IsNil)
+	c.Assert(data, Not(HasLen), 0)
+
+	c.Assert(checkResponseData(data), IsNil)
+}
+
+func (s *IcecastSuite) TestMoveClientsResponseParser(c *C) {
+	data, err := ioutil.ReadFile("testdata/moveclients.xml")
+
+	c.Assert(err, IsNil)
+	c.Assert(data, Not(HasLen), 0)
+
+	c.Assert(checkResponseData(data), IsNil)
+}
+
+func (s *IcecastSuite) TestKillClientResponseParser(c *C) {
+	data, err := ioutil.ReadFile("testdata/killclient.xml")
+
+	c.Assert(err, IsNil)
+	c.Assert(data, Not(HasLen), 0)
+
+	c.Assert(checkResponseData(data), IsNil)
+}
+
+func (s *IcecastSuite) TestKillSourceResponseParser(c *C) {
+	data, err := ioutil.ReadFile("testdata/killsource.xml")
+
+	c.Assert(err, IsNil)
+	c.Assert(data, Not(HasLen), 0)
+
+	c.Assert(checkResponseData(data), IsNil)
+}

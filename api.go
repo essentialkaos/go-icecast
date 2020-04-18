@@ -207,6 +207,11 @@ type iceListeners struct {
 	Listeners []*Listener `xml:"source>listener"`
 }
 
+type iceResponse struct {
+	Message string `xml:"message"`
+	Return  int    `xml:"return"`
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // GetSource tries to find source with given mounth point

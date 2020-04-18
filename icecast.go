@@ -12,7 +12,9 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"net/url"
 	"runtime"
+	"strconv"
 	"time"
 
 	"github.com/valyala/fasthttp"
@@ -75,7 +77,7 @@ func (api *API) SetUserAgent(app, version string) {
 
 // GetInfo fetches info about Icecast server
 func (api *API) GetInfo() (*Server, error) {
-	data, err := api.doRequest("GET", "/admin/stats")
+	data, err := api.doRequest("GET", "/stats")
 
 	if err != nil {
 		return nil, err
@@ -84,14 +86,72 @@ func (api *API) GetInfo() (*Server, error) {
 	return parseStatsData(data)
 }
 
+// ListMounts fetches info about mounted sources
 func (api *API) ListMounts() ([]*Mount, error) {
-	data, err := api.doRequest("GET", "/admin/listmounts")
+	data, err := api.doRequest("GET", "/listmounts")
 
 	if err != nil {
 		return nil, err
 	}
 
 	return parseMountsData(data)
+}
+
+// ListClients fetches list of listeners connected to given mount point
+func (api *API) ListClients(mount string) ([]*Listener, error) {
+	data, err := api.doRequest("GET", "/listclients?mount="+mount)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return parseClientListData(data)
+}
+
+// UpdateMeta updates meta for given mount source
+func (api *API) UpdateMeta(mount, artist, title string) error {
+	url := "/metadata?mode=updinfo&mount=" + mount + "&artist=" + esc(artist) + "&title=" + esc(title)
+	data, err := api.doRequest("GET", url)
+
+	if err != nil {
+		return err
+	}
+
+	return checkResponseData(data)
+}
+
+// MoveClients moves clients from one source to another
+func (api *API) MoveClients(from, to string) error {
+	url := "/moveclients?mount=" + from + "&destination=" + to
+	data, err := api.doRequest("GET", url)
+
+	if err != nil {
+		return err
+	}
+
+	return checkResponseData(data)
+}
+
+// KillClient kills client with given ID connected to given mount point
+func (api *API) KillClient(mount string, id int) error {
+	data, err := api.doRequest("GET", "/killclient?mount="+mount+"&id="+strconv.Itoa(id))
+
+	if err != nil {
+		return err
+	}
+
+	return checkResponseData(data)
+}
+
+// KillSource kills the source with given mount point
+func (api *API) KillSource(mount string) error {
+	data, err := api.doRequest("GET", "/killsource?mount="+mount)
+
+	if err != nil {
+		return err
+	}
+
+	return checkResponseData(data)
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -132,6 +192,22 @@ func parseClientListData(data []byte) ([]*Listener, error) {
 	return listeners.Listeners, nil
 }
 
+// checkResponseData checks default Icecast response for errors
+func checkResponseData(data []byte) error {
+	response := &iceResponse{}
+	err := xml.Unmarshal(data, response)
+
+	if err != nil {
+		return err
+	}
+
+	if response.Return == 1 {
+		return nil
+	}
+
+	return fmt.Errorf(response.Message)
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // codebeat:disable[ARITY]
@@ -162,7 +238,7 @@ func (api *API) doRequest(method, uri string) ([]byte, error) {
 // acquireRequest acquire new request with given params
 func (api *API) acquireRequest(method, uri string) *fasthttp.Request {
 	req := fasthttp.AcquireRequest()
-	req.SetRequestURI(api.url + uri)
+	req.SetRequestURI(api.url + "/admin" + uri)
 
 	if method != "GET" {
 		req.Header.SetMethod(method)
@@ -199,4 +275,9 @@ func getUserAgent(app, version string) string {
 // genBasicAuthHeader generate basic auth header
 func genBasicAuthHeader(username, password string) string {
 	return base64.StdEncoding.EncodeToString([]byte(username + ":" + password))
+}
+
+// esc escapes the string so it can be safely placed inside a URL query
+func esc(s string) string {
+	return url.QueryEscape(s)
 }
