@@ -116,3 +116,18 @@ func (s *IcecastSuite) TestStatsParser(c *C) {
 	c.Assert(ics.SourceIP, Equals, "192.168.1.97")
 	c.Assert(ics.UserAgent, Equals, "Native Instruments IceCast Uplink")
 }
+
+func (s *IcecastSuite) TestMountsParser(c *C) {
+	data, err := ioutil.ReadFile("testdata/listmounts.xml")
+
+	c.Assert(err, IsNil)
+	c.Assert(data, Not(HasLen), 0)
+
+	mounts, err := parseMountsData(data)
+
+	c.Assert(mounts, HasLen, 1)
+	c.Assert(mounts[0].Path, Equals, "/source1.ogg")
+	c.Assert(mounts[0].Listeners, Equals, 48)
+	c.Assert(mounts[0].Connected, Equals, 879)
+	c.Assert(mounts[0].ContentType, Equals, "application/ogg")
+}

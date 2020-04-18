@@ -115,6 +115,14 @@ type TrackInfo struct {
 	RawInfo string
 }
 
+// Mount contains basic info about source mount
+type Mount struct {
+	Path        string `xml:"mount,attr"`
+	Listeners   int    `xml:"Listeners"`
+	Connected   int    `xml:"Connected"`
+	ContentType string `xml:"content-type"`
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 type iceServer struct {
@@ -179,6 +187,10 @@ type iceSource struct {
 	TotalBytesSent      int    `xml:"total_bytes_sent"`
 	UserAgent           string `xml:"user_agent"`
 	YpCurrentlyPlaying  string `xml:"yp_currently_playing"`
+}
+
+type iceMounts struct {
+	Mounts []*Mount `xml:"source"`
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //

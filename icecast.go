@@ -84,6 +84,16 @@ func (api *API) GetInfo() (*Server, error) {
 	return parseStatsData(data)
 }
 
+func (api *API) ListMounts() ([]*Mount, error) {
+	data, err := api.doRequest("GET", "/admin/listmounts")
+
+	if err != nil {
+		return nil, err
+	}
+
+	return parseMountsData(data)
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // parseStatsData parses raw XML data with Icecast stats
@@ -96,6 +106,18 @@ func parseStatsData(data []byte) (*Server, error) {
 	}
 
 	return convertStats(server), nil
+}
+
+// parseMountsData parses raw XML data with Icecast mounts info
+func parseMountsData(data []byte) ([]*Mount, error) {
+	mounts := &iceMounts{}
+	err := xml.Unmarshal(data, mounts)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return mounts.Mounts, nil
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
