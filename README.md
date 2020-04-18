@@ -11,7 +11,7 @@
 
 <br/>
 
-`go-icecast` is a Go package for working with Icecast API.
+`go-icecast` is a Go package for working with [Icecast Admin API](http://icecast.org/docs/icecast-2.4.1/admin-interface.html).
 
 ### Installation
 

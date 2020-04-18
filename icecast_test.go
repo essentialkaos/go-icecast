@@ -33,7 +33,7 @@ func (s *IcecastSuite) TestBasic(c *C) {
 	c.Assert(err, IsNil)
 }
 
-func (s *IcecastSuite) TestParser(c *C) {
+func (s *IcecastSuite) TestStatsParser(c *C) {
 	data, err := ioutil.ReadFile("testdata/stats.xml")
 
 	c.Assert(err, IsNil)

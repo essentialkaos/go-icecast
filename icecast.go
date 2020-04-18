@@ -75,14 +75,10 @@ func (api *API) SetUserAgent(app, version string) {
 
 // GetInfo fetches info about Icecast server
 func (api *API) GetInfo() (*Server, error) {
-	data, statusCode, err := api.doRequest("GET", "/admin/stats")
+	data, err := api.doRequest("GET", "/admin/stats")
 
 	if err != nil {
 		return nil, err
-	}
-
-	if statusCode != 200 {
-		return nil, fmt.Errorf("Server return status code %d", statusCode)
 	}
 
 	return parseStatsData(data)
@@ -107,7 +103,7 @@ func parseStatsData(data []byte) (*Server, error) {
 // codebeat:disable[ARITY]
 
 // doRequest creates and executes request
-func (api *API) doRequest(method, uri string) ([]byte, int, error) {
+func (api *API) doRequest(method, uri string) ([]byte, error) {
 	req := api.acquireRequest(method, uri)
 	resp := fasthttp.AcquireResponse()
 
@@ -117,16 +113,16 @@ func (api *API) doRequest(method, uri string) ([]byte, int, error) {
 	err := api.Client.Do(req, resp)
 
 	if err != nil {
-		return nil, -1, err
+		return nil, err
 	}
 
 	statusCode := resp.StatusCode()
 
 	if statusCode != 200 {
-		return nil, statusCode, nil
+		return nil, fmt.Errorf("Server return status code %d", statusCode)
 	}
 
-	return resp.Body(), 200, nil
+	return resp.Body(), nil
 }
 
 // acquireRequest acquire new request with given params
