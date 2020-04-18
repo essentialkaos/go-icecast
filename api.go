@@ -123,6 +123,16 @@ type Mount struct {
 	ContentType string `xml:"content-type"`
 }
 
+// Listener contains info about listener
+type Listener struct {
+	ID        int    `xml:"ID"`
+	IP        string `xml:"IP"`
+	UserAgent string `xml:"UserAgent"`
+	Referer   string `xml:"Referer"`
+	Lag       int    `xml:"lag"`
+	Connected int    `xml:"Connected"`
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 type iceServer struct {
@@ -191,6 +201,10 @@ type iceSource struct {
 
 type iceMounts struct {
 	Mounts []*Mount `xml:"source"`
+}
+
+type iceListeners struct {
+	Listeners []*Listener `xml:"source>listener"`
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //

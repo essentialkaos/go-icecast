@@ -4,15 +4,15 @@
     <listeners>2</listeners>
     <listener id="757">
       <ID>757</ID>
-      <IP>188.32.3.188</IP>
+      <IP>192.168.1.22</IP>
       <UserAgent>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36</UserAgent>
-      <Referer>http://136.244.80.248:8000/source1.ogg</Referer>
+      <Referer>http://192.168.1.11:8000/source1.ogg</Referer>
       <lag>0</lag>
       <Connected>419</Connected>
     </listener>
     <listener id="764">
       <ID>764</ID>
-      <IP>188.32.3.188</IP>
+      <IP>192.168.1.33</IP>
       <UserAgent>Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0</UserAgent>
       <lag>0</lag>
       <Connected>312</Connected>

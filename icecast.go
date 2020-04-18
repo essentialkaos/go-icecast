@@ -120,6 +120,18 @@ func parseMountsData(data []byte) ([]*Mount, error) {
 	return mounts.Mounts, nil
 }
 
+// parseClientListData parses raw XML data with Icecast listeners
+func parseClientListData(data []byte) ([]*Listener, error) {
+	listeners := &iceListeners{}
+	err := xml.Unmarshal(data, listeners)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return listeners.Listeners, nil
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // codebeat:disable[ARITY]

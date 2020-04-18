@@ -131,3 +131,26 @@ func (s *IcecastSuite) TestMountsParser(c *C) {
 	c.Assert(mounts[0].Connected, Equals, 879)
 	c.Assert(mounts[0].ContentType, Equals, "application/ogg")
 }
+
+func (s *IcecastSuite) TestListenersListParser(c *C) {
+	data, err := ioutil.ReadFile("testdata/listclients.xml")
+
+	c.Assert(err, IsNil)
+	c.Assert(data, Not(HasLen), 0)
+
+	listeners, err := parseClientListData(data)
+
+	c.Assert(listeners, HasLen, 2)
+	c.Assert(listeners[0].ID, Equals, 757)
+	c.Assert(listeners[0].IP, Equals, "192.168.1.22")
+	c.Assert(listeners[0].UserAgent, Equals, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
+	c.Assert(listeners[0].Referer, Equals, "http://192.168.1.11:8000/source1.ogg")
+	c.Assert(listeners[0].Lag, Equals, 0)
+	c.Assert(listeners[0].Connected, Equals, 419)
+	c.Assert(listeners[1].ID, Equals, 764)
+	c.Assert(listeners[1].IP, Equals, "192.168.1.33")
+	c.Assert(listeners[1].UserAgent, Equals, "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0")
+	c.Assert(listeners[1].Referer, Equals, "")
+	c.Assert(listeners[1].Lag, Equals, 0)
+	c.Assert(listeners[1].Connected, Equals, 312)
+}
