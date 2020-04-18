@@ -23,9 +23,10 @@
    <stream_kbytes_read>253129</stream_kbytes_read>
    <stream_kbytes_sent>333396</stream_kbytes_sent>
    <source mount="/source1.ogg">
+      <artist>Nico &amp; Vinz</artist>
       <audio_bitrate>320000</audio_bitrate>
       <audio_channels>2</audio_channels>
-      <audio_info>...</audio_info>
+      <audio_info>ice-samplerate=48000;ice-bitrate=Quality 0;ice-channels=2</audio_info>
       <audio_samplerate>48000</audio_samplerate>
       <bitrate>Quality 0</bitrate>
       <connected>16</connected>
@@ -51,10 +52,12 @@
       <source_ip>192.168.1.97</source_ip>
       <stream_start>18/Apr/2020:11:50:03 +0000</stream_start>
       <subtype>Vorbis</subtype>
+      <title>Am I Wrong (Gryffin Remix) RA</title>
       <total_bytes_read>4655111</total_bytes_read>
       <total_bytes_sent>1567151</total_bytes_sent>
       <total_mbytes_sent>2</total_mbytes_sent>
       <user_agent>Native Instruments IceCast Uplink</user_agent>
+      <yp_currently_playing>Nico &amp; Vinz - Am I Wrong (Gryffin Remix) RA</yp_currently_playing>
    </source>
 </icestats>
 

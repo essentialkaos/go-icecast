@@ -65,6 +65,7 @@ type Source struct {
 	IceAudioInfo    *AudioInfo
 	Info            *SourceInfo
 	Stats           *SourceStats
+	Track           *TrackInfo
 	Bitrate         string
 	Genre           string
 	ListenURL       string
@@ -101,10 +102,17 @@ type SourceStats struct {
 
 // AudioInfo contains basic info about stream
 type AudioInfo struct {
-	Bitrate     int
-	Channels    int
-	SampleRate  int
-	Description string
+	Bitrate    int
+	Channels   int
+	SampleRate int
+	RawInfo    string
+}
+
+// TrackInfo contains info about current playing track
+type TrackInfo struct {
+	Artist  string
+	Title   string
+	RawInfo string
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -137,6 +145,8 @@ type iceServer struct {
 
 type iceSource struct {
 	Mount               string `xml:"mount,attr"`
+	Artist              string `xml:"artist"`
+	Title               string `xml:"title"`
 	AudioBitrate        int    `xml:"audio_bitrate"`
 	AudioChannels       int    `xml:"audio_channels"`
 	AudioInfo           string `xml:"audio_info"`
@@ -168,6 +178,7 @@ type iceSource struct {
 	TotalBytesRead      int    `xml:"total_bytes_read"`
 	TotalBytesSent      int    `xml:"total_bytes_sent"`
 	UserAgent           string `xml:"user_agent"`
+	YpCurrentlyPlaying  string `xml:"yp_currently_playing"`
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -189,8 +200,8 @@ func (s *Server) GetSource(mount string) *Source {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// convertDataFormat converts data from internal format
-func convertDataFormat(sv *iceServer) *Server {
+// convertStats converts data from internal format
+func convertStats(sv *iceServer) *Server {
 	result := &Server{
 		Admin:    sv.Admin,
 		Host:     sv.Host,
@@ -227,15 +238,20 @@ func convertDataFormat(sv *iceServer) *Server {
 	for _, s := range sv.SourcesData {
 		result.Sources[s.Mount] = &Source{
 			AudioInfo: &AudioInfo{
-				Bitrate:     s.AudioBitrate,
-				Channels:    s.AudioChannels,
-				SampleRate:  s.AudioSamplerate,
-				Description: s.AudioInfo,
+				Bitrate:    s.AudioBitrate,
+				Channels:   s.AudioChannels,
+				SampleRate: s.AudioSamplerate,
+				RawInfo:    s.AudioInfo,
 			},
 			IceAudioInfo: &AudioInfo{
 				Bitrate:    s.IceBitrate * 1000,
 				Channels:   s.IceChannels,
 				SampleRate: s.IceSamplerate,
+			},
+			Track: &TrackInfo{
+				Artist:  s.Artist,
+				Title:   s.Title,
+				RawInfo: s.YpCurrentlyPlaying,
 			},
 			Info: &SourceInfo{
 				Name:        s.ServerName,
@@ -271,7 +287,7 @@ func convertDataFormat(sv *iceServer) *Server {
 	return result
 }
 
-// parseMax parse max data
+// parseMax parse value with possible "unlimited" value
 func parseMax(data string) int {
 	if data == "unlimited" {
 		return -1

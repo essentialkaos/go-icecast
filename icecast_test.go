@@ -34,12 +34,12 @@ func (s *IcecastSuite) TestBasic(c *C) {
 }
 
 func (s *IcecastSuite) TestParser(c *C) {
-	data, err := ioutil.ReadFile("testdata/data.xml")
+	data, err := ioutil.ReadFile("testdata/stats.xml")
 
 	c.Assert(err, IsNil)
 	c.Assert(data, Not(HasLen), 0)
 
-	ic, err := Parse(data)
+	ic, err := parseStatsData(data)
 
 	c.Assert(err, IsNil)
 	c.Assert(ic, NotNil)
@@ -78,12 +78,16 @@ func (s *IcecastSuite) TestParser(c *C) {
 	c.Assert(ics.AudioInfo.Bitrate, Equals, 320000)
 	c.Assert(ics.AudioInfo.Channels, Equals, 2)
 	c.Assert(ics.AudioInfo.SampleRate, Equals, 48000)
-	c.Assert(ics.AudioInfo.Description, Equals, "...")
+	c.Assert(ics.AudioInfo.RawInfo, Equals, "ice-samplerate=48000;ice-bitrate=Quality 0;ice-channels=2")
 
 	c.Assert(ics.IceAudioInfo.Bitrate, Equals, 320000)
 	c.Assert(ics.IceAudioInfo.Channels, Equals, 2)
 	c.Assert(ics.IceAudioInfo.SampleRate, Equals, 48000)
-	c.Assert(ics.IceAudioInfo.Description, Equals, "")
+	c.Assert(ics.IceAudioInfo.RawInfo, Equals, "")
+
+	c.Assert(ics.Track.Artist, Equals, "Nico & Vinz")
+	c.Assert(ics.Track.Title, Equals, "Am I Wrong (Gryffin Remix) RA")
+	c.Assert(ics.Track.RawInfo, Equals, "Nico & Vinz - Am I Wrong (Gryffin Remix) RA")
 
 	c.Assert(ics.Info.Name, Equals, "Stream #1")
 	c.Assert(ics.Info.Description, Equals, "My Super Stream")

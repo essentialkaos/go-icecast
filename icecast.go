@@ -64,18 +64,6 @@ func NewAPI(url, app, password string) (*API, error) {
 	}, nil
 }
 
-// Parse parses raw XML data with Icecast stats
-func Parse(data []byte) (*Server, error) {
-	server := &iceServer{}
-	err := xml.Unmarshal(data, server)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return convertDataFormat(server), nil
-}
-
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // SetUserAgent set user-agent string based on app name and version
@@ -97,7 +85,21 @@ func (api *API) GetInfo() (*Server, error) {
 		return nil, fmt.Errorf("Server return status code %d", statusCode)
 	}
 
-	return Parse(data)
+	return parseStatsData(data)
+}
+
+// ////////////////////////////////////////////////////////////////////////////////// //
+
+// parseStatsData parses raw XML data with Icecast stats
+func parseStatsData(data []byte) (*Server, error) {
+	server := &iceServer{}
+	err := xml.Unmarshal(data, server)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return convertStats(server), nil
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
