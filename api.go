@@ -214,7 +214,7 @@ type iceResponse struct {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// GetSource tries to find source with given mounth point
+// GetSource tries to find source with given mount point
 func (s *Server) GetSource(mount string) *Source {
 	if s.Sources == nil {
 		return nil
