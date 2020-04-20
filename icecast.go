@@ -77,7 +77,7 @@ func (api *API) SetUserAgent(app, version string) {
 
 // GetInfo fetches info about Icecast server
 func (api *API) GetInfo() (*Server, error) {
-	data, err := api.doRequest("GET", "/stats")
+	data, err := api.doRequest("/stats")
 
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func (api *API) GetInfo() (*Server, error) {
 
 // ListMounts fetches info about mounted sources
 func (api *API) ListMounts() ([]*Mount, error) {
-	data, err := api.doRequest("GET", "/listmounts")
+	data, err := api.doRequest("/listmounts")
 
 	if err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func (api *API) ListMounts() ([]*Mount, error) {
 
 // ListClients fetches list of listeners connected to given mount point
 func (api *API) ListClients(mount string) ([]*Listener, error) {
-	data, err := api.doRequest("GET", "/listclients?mount="+mount)
+	data, err := api.doRequest("/listclients?mount=" + mount)
 
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (api *API) ListClients(mount string) ([]*Listener, error) {
 // UpdateMeta updates meta for given mount source
 func (api *API) UpdateMeta(mount, artist, title string) error {
 	url := "/metadata?mode=updinfo&mount=" + mount + "&artist=" + esc(artist) + "&title=" + esc(title)
-	data, err := api.doRequest("GET", url)
+	data, err := api.doRequest(url)
 
 	if err != nil {
 		return err
@@ -123,7 +123,7 @@ func (api *API) UpdateMeta(mount, artist, title string) error {
 // MoveClients moves clients from one source to another
 func (api *API) MoveClients(from, to string) error {
 	url := "/moveclients?mount=" + from + "&destination=" + to
-	data, err := api.doRequest("GET", url)
+	data, err := api.doRequest(url)
 
 	if err != nil {
 		return err
@@ -134,7 +134,7 @@ func (api *API) MoveClients(from, to string) error {
 
 // KillClient kills client with given ID connected to given mount point
 func (api *API) KillClient(mount string, id int) error {
-	data, err := api.doRequest("GET", "/killclient?mount="+mount+"&id="+strconv.Itoa(id))
+	data, err := api.doRequest("/killclient?mount=" + mount + "&id=" + strconv.Itoa(id))
 
 	if err != nil {
 		return err
@@ -145,7 +145,7 @@ func (api *API) KillClient(mount string, id int) error {
 
 // KillSource kills the source with given mount point
 func (api *API) KillSource(mount string) error {
-	data, err := api.doRequest("GET", "/killsource?mount="+mount)
+	data, err := api.doRequest("/killsource?mount=" + mount)
 
 	if err != nil {
 		return err
@@ -213,8 +213,8 @@ func checkResponseData(data []byte) error {
 // codebeat:disable[ARITY]
 
 // doRequest creates and executes request
-func (api *API) doRequest(method, uri string) ([]byte, error) {
-	req := api.acquireRequest(method, uri)
+func (api *API) doRequest(uri string) ([]byte, error) {
+	req := api.acquireRequest(uri)
 	resp := fasthttp.AcquireResponse()
 
 	defer fasthttp.ReleaseRequest(req)
@@ -236,18 +236,9 @@ func (api *API) doRequest(method, uri string) ([]byte, error) {
 }
 
 // acquireRequest acquire new request with given params
-func (api *API) acquireRequest(method, uri string) *fasthttp.Request {
+func (api *API) acquireRequest(uri string) *fasthttp.Request {
 	req := fasthttp.AcquireRequest()
 	req.SetRequestURI(api.url + "/admin" + uri)
-
-	if method != "GET" {
-		req.Header.SetMethod(method)
-	}
-
-	if method == "POST" {
-		req.Header.Set("Content-Type", "application/xml")
-		req.Header.Add("Accept", "application/xml")
-	}
 
 	// Set auth header
 	req.Header.Add("Authorization", "Basic "+api.basicAuth)
