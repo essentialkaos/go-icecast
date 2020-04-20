@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<icestats>
+  <source mount="/source1.ogg">
+    <listeners>48</listeners>
+    <Listeners>48</Listeners>
+    <Connected>879</Connected>
+    <content-type>application/ogg</content-type>
+  </source>
+</icestats>
