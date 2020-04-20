@@ -75,8 +75,8 @@ func (api *API) SetUserAgent(app, version string) {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// GetInfo fetches info about Icecast server
-func (api *API) GetInfo() (*Server, error) {
+// GetStats fetches info about Icecast server
+func (api *API) GetStats() (*Stats, error) {
 	data, err := api.doRequest("/stats")
 
 	if err != nil {
@@ -157,8 +157,8 @@ func (api *API) KillSource(mount string) error {
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // parseStatsData parses raw XML data with Icecast stats
-func parseStatsData(data []byte) (*Server, error) {
-	server := &iceServer{}
+func parseStatsData(data []byte) (*Stats, error) {
+	server := &iceStats{}
 	err := xml.Unmarshal(data, server)
 
 	if err != nil {

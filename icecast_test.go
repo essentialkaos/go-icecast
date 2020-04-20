@@ -85,8 +85,8 @@ func (s *IcecastSuite) TestBasicErrors(c *C) {
 	c.Assert(err, NotNil)
 }
 
-func (s *IcecastSuite) TestGetInfo(c *C) {
-	ic, err := s.client.GetInfo()
+func (s *IcecastSuite) TestGetStats(c *C) {
+	ic, err := s.client.GetStats()
 
 	c.Assert(err, IsNil)
 	c.Assert(ic, NotNil)
@@ -165,10 +165,10 @@ func (s *IcecastSuite) TestGetInfo(c *C) {
 
 	c.Assert(ic.GetSource("/source1.ogg"), NotNil)
 
-	ic = &Server{}
+	ic = &Stats{}
 	c.Assert(ic.GetSource("/source1.ogg"), IsNil)
 
-	ic, err = s.client.GetInfo()
+	ic, err = s.client.GetStats()
 
 	c.Assert(err, NotNil)
 	c.Assert(ic, IsNil)
