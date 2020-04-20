@@ -5,6 +5,7 @@
   <a href="https://goreportcard.com/report/github.com/essentialkaos/go-icecast"><img src="https://goreportcard.com/badge/github.com/essentialkaos/go-icecast"></a>
   <a href="https://travis-ci.com/essentialkaos/go-icecast"><img src="https://travis-ci.com/essentialkaos/go-icecast.svg"></a>
   <a href="https://codebeat.co/projects/github-com-essentialkaos-go-icecast-master"><img alt="codebeat badge" src="https://codebeat.co/badges/b2237e1d-2089-40f3-bfa1-f66bc79c68a8"></a>
+  <a href='https://coveralls.io/github/essentialkaos/go-icecast?branch=develop'><img src='https://coveralls.io/repos/github/essentialkaos/go-icecast/badge.svg?branch=develop' alt='Coverage Status' /></a>
   <a href="https://essentialkaos.com/ekol"><img src="https://gh.kaos.st/ekol.svg"></a>
 </p>
 
