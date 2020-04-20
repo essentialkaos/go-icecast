@@ -18,8 +18,8 @@ const _DATE_FORMAT = "2/Jan/2006:15:04:05 -0700"
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// Server contains info about Icecast Server
-type Server struct {
+// Stats contains info about Icecast Server
+type Stats struct {
 	Admin    string
 	Host     string
 	Start    time.Time
@@ -135,7 +135,7 @@ type Listener struct {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-type iceServer struct {
+type iceStats struct {
 	Admin                   string       `xml:"admin"`
 	BannedIPs               int          `xml:"banned_IPs"`
 	Build                   int          `xml:"build"`
@@ -215,7 +215,7 @@ type iceResponse struct {
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // GetSource tries to find source with given mount point
-func (s *Server) GetSource(mount string) *Source {
+func (s *Stats) GetSource(mount string) *Source {
 	if s.Sources == nil {
 		return nil
 	}
@@ -232,8 +232,8 @@ func (s *Server) GetSource(mount string) *Source {
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // convertStats converts data from internal format
-func convertStats(sv *iceServer) *Server {
-	result := &Server{
+func convertStats(sv *iceStats) *Stats {
+	result := &Stats{
 		Admin:    sv.Admin,
 		Host:     sv.Host,
 		Start:    parseDate(sv.ServerStart),

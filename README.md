@@ -54,14 +54,14 @@ func main() {
     return
   }
 
-  info, err := api.GetInfo()
+  stats, err := api.GetStats()
 
   if err != nil {
     fmt.Printf("Error: %v\n", err)
     return
   }
 
-  fmt.Println("%-v\n", info)
+  fmt.Println("%-v\n", stats)
 }
 ```
 
