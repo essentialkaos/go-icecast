@@ -9,6 +9,7 @@ package icecast
 
 import (
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -168,7 +169,10 @@ type iceSource struct {
 	AudioBitrate        int    `xml:"audio_bitrate"`
 	AudioChannels       int    `xml:"audio_channels"`
 	AudioInfo           string `xml:"audio_info"`
+	AudioCodecID        int    `xml:"audio_codecid"`
 	AudioSamplerate     int    `xml:"audio_samplerate"`
+	MPEGChannels        int    `xml:"mpeg_channels"`
+	MPEGSamplerate      int    `xml:"mpeg_samplerate"`
 	Bitrate             string `xml:"bitrate"`
 	Connected           int    `xml:"connected"`
 	Genre               string `xml:"genre"`
@@ -313,6 +317,24 @@ func convertStats(sv *iceStats) *Stats {
 			SourceIP:        s.SourceIP,
 			UserAgent:       s.UserAgent,
 		}
+
+		if s.MPEGSamplerate != 0 && s.AudioSamplerate == 0 {
+			result.Sources[s.Mount].AudioInfo.SampleRate = s.MPEGSamplerate
+		}
+
+		if s.MPEGChannels != 0 && s.AudioChannels == 0 {
+			result.Sources[s.Mount].AudioInfo.Channels = s.MPEGChannels
+		}
+
+		if s.AudioBitrate == 0 && isNum(s.Bitrate) {
+			bitrate, _ := strconv.Atoi(s.Bitrate)
+
+			if bitrate > 0 && bitrate < 1024 {
+				bitrate *= 1000
+			}
+
+			result.Sources[s.Mount].AudioInfo.Bitrate = bitrate
+		}
 	}
 
 	return result
@@ -327,6 +349,11 @@ func parseMax(data string) int {
 	n, _ := strconv.Atoi(data)
 
 	return n
+}
+
+// isNum returns true if given string contains number
+func isNum(s string) bool {
+	return strings.Trim(s, "0123456789") == ""
 }
 
 // parseDate parses date

@@ -59,5 +59,37 @@
       <user_agent>Native Instruments IceCast Uplink</user_agent>
       <yp_currently_playing>Nico &amp; Vinz - Am I Wrong (Gryffin Remix) RA</yp_currently_playing>
    </source>
+   <source mount="/source1.aac">
+      <artist></artist>
+      <audio_codecid>10</audio_codecid>
+      <bitrate>320</bitrate>
+      <connected>16</connected>
+      <genre>Other</genre>
+      <incoming_bitrate>320000</incoming_bitrate>
+      <listener_connections>20</listener_connections>
+      <listener_peak>40</listener_peak>
+      <listeners>16</listeners>
+      <listenurl>http://localhost:8000/source.ogg</listenurl>
+      <max_listeners>unlimited</max_listeners>
+      <metadata_updated>18/Apr/2020:11:50:04 +0000</metadata_updated>
+      <mpeg_channels>1</mpeg_channels>
+      <mpeg_samplerate>32000</mpeg_samplerate>
+      <outgoing_kbitrate>311565</outgoing_kbitrate>
+      <public>1</public>
+      <queue_size>5</queue_size>
+      <server_description>My Super Stream</server_description>
+      <server_name>Stream #1</server_name>
+      <server_type>application/ogg</server_type>
+      <server_url>https://domain.com</server_url>
+      <slow_listeners>5</slow_listeners>
+      <source_ip>192.168.1.97</source_ip>
+      <stream_start>18/Apr/2020:11:50:03 +0000</stream_start>
+      <subtype>Vorbis</subtype>
+      <title></title>
+      <total_bytes_read>4655111</total_bytes_read>
+      <total_bytes_sent>1567151</total_bytes_sent>
+      <total_mbytes_sent>2</total_mbytes_sent>
+      <yp_currently_playing></yp_currently_playing>
+  </source>
 </icestats>
 
