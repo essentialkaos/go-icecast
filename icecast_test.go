@@ -116,7 +116,7 @@ func (s *IcecastSuite) TestGetStats(c *C) {
 	c.Assert(ic.Stats.StreamBytesRead, Equals, 259204096)
 	c.Assert(ic.Stats.StreamBytesSent, Equals, 341397504)
 
-	c.Assert(ic.Sources, HasLen, 1)
+	c.Assert(ic.Sources, HasLen, 2)
 
 	ics := ic.GetSource("source1.ogg")
 
@@ -162,6 +162,13 @@ func (s *IcecastSuite) TestGetStats(c *C) {
 	c.Assert(ics.Public, Equals, true)
 	c.Assert(ics.SourceIP, Equals, "192.168.1.97")
 	c.Assert(ics.UserAgent, Equals, "Native Instruments IceCast Uplink")
+
+	ics = ic.GetSource("source1.aac")
+
+	c.Assert(ics.AudioInfo.Bitrate, Equals, 320000)
+	c.Assert(ics.AudioInfo.Channels, Equals, 1)
+	c.Assert(ics.AudioInfo.SampleRate, Equals, 32000)
+	c.Assert(ics.AudioInfo.CodecID, Equals, 10)
 
 	c.Assert(ic.GetSource("/source1.ogg"), NotNil)
 
