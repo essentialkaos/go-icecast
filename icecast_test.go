@@ -168,6 +168,7 @@ func (s *IcecastSuite) TestGetStats(c *C) {
 	c.Assert(ics.AudioInfo.Bitrate, Equals, 320000)
 	c.Assert(ics.AudioInfo.Channels, Equals, 1)
 	c.Assert(ics.AudioInfo.SampleRate, Equals, 32000)
+	c.Assert(ics.AudioInfo.CodecID, Equals, 10)
 
 	c.Assert(ic.GetSource("/source1.ogg"), NotNil)
 

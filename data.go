@@ -106,6 +106,7 @@ type AudioInfo struct {
 	Bitrate    int
 	Channels   int
 	SampleRate int
+	CodecID    int
 	RawInfo    string
 }
 
@@ -276,6 +277,7 @@ func convertStats(sv *iceStats) *Stats {
 				Bitrate:    s.AudioBitrate,
 				Channels:   s.AudioChannels,
 				SampleRate: s.AudioSamplerate,
+				CodecID:    s.AudioCodecID,
 				RawInfo:    s.AudioInfo,
 			},
 			IceAudioInfo: &AudioInfo{
