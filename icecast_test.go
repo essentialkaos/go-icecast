@@ -94,7 +94,7 @@ func (s *IcecastSuite) TestGetStats(c *C) {
 	c.Assert(ic.Admin, Equals, "icemaster@localhost")
 	c.Assert(ic.Host, Equals, "localhost")
 	c.Assert(ic.Location, Equals, "Earth")
-	c.Assert(ic.Start.Unix(), Equals, int64(1587116898))
+	c.Assert(ic.Started.Unix(), Equals, int64(1587116898))
 
 	c.Assert(ic.Info.ID, Equals, "Icecast 2.4.0-kh12")
 	c.Assert(ic.Info.Build, Equals, 20190712000901)
@@ -158,7 +158,7 @@ func (s *IcecastSuite) TestGetStats(c *C) {
 	c.Assert(ics.Genre, Equals, "Various Styles")
 	c.Assert(ics.ListenURL, Equals, "http://localhost:8000/source.ogg")
 	c.Assert(ics.MetadataUpdated.Unix(), Equals, int64(1587210604))
-	c.Assert(ics.StreamStart.Unix(), Equals, int64(1587210603))
+	c.Assert(ics.StreamStarted.Unix(), Equals, int64(1587210603))
 	c.Assert(ics.Public, Equals, true)
 	c.Assert(ics.SourceIP, Equals, "192.168.1.97")
 	c.Assert(ics.UserAgent, Equals, "Native Instruments IceCast Uplink")

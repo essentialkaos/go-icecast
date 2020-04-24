@@ -23,7 +23,7 @@ const _DATE_FORMAT = "2/Jan/2006:15:04:05 -0700"
 type Stats struct {
 	Admin    string
 	Host     string
-	Start    time.Time
+	Started  time.Time
 	Location string
 
 	Info    *ServerInfo
@@ -71,7 +71,7 @@ type Source struct {
 	Genre           string
 	ListenURL       string
 	MetadataUpdated time.Time
-	StreamStart     time.Time
+	StreamStarted   time.Time
 	Public          bool
 	SourceIP        string
 	UserAgent       string
@@ -241,7 +241,7 @@ func convertStats(sv *iceStats) *Stats {
 	result := &Stats{
 		Admin:    sv.Admin,
 		Host:     sv.Host,
-		Start:    parseDate(sv.ServerStart),
+		Started:  parseDate(sv.ServerStart),
 		Location: sv.Location,
 		Info: &ServerInfo{
 			ID:    sv.ServerID,
@@ -314,7 +314,7 @@ func convertStats(sv *iceStats) *Stats {
 			Genre:           s.Genre,
 			ListenURL:       s.ListenURL,
 			MetadataUpdated: parseDate(s.MetadataUpdated),
-			StreamStart:     parseDate(s.StreamStart),
+			StreamStarted:   parseDate(s.StreamStart),
 			Public:          s.Public == 1,
 			SourceIP:        s.SourceIP,
 			UserAgent:       s.UserAgent,
