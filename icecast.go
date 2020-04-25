@@ -120,6 +120,18 @@ func (api *API) UpdateMeta(mount, artist, title string) error {
 	return checkResponseData(data)
 }
 
+// UpdateFallback updates fallback for given mount source
+func (api *API) UpdateFallback(mount, fallback string) error {
+	url := "/fallback?mount=" + mount + "&fallback=" + fallback
+	data, err := api.doRequest(url)
+
+	if err != nil {
+		return err
+	}
+
+	return checkResponseData(data)
+}
+
 // MoveClients moves clients from one source to another
 func (api *API) MoveClients(from, to string) error {
 	url := "/moveclients?mount=" + from + "&destination=" + to
@@ -194,6 +206,10 @@ func parseClientListData(data []byte) ([]*Listener, error) {
 
 // checkResponseData checks default Icecast response for errors
 func checkResponseData(data []byte) error {
+	if len(data) == 0 {
+		return nil
+	}
+
 	response := &iceResponse{}
 	err := xml.Unmarshal(data, response)
 

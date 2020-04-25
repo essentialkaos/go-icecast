@@ -234,6 +234,16 @@ func (s *IcecastSuite) TestMetadata(c *C) {
 	c.Assert(err, NotNil)
 }
 
+func (s *IcecastSuite) TestFallback(c *C) {
+	err := s.client.UpdateFallback("/source1.ogg", "/source2.ogg")
+
+	c.Assert(err, IsNil)
+
+	err = s.client.UpdateFallback("/source2.ogg", "/source2.ogg")
+
+	c.Assert(err, NotNil)
+}
+
 func (s *IcecastSuite) TestMoveClients(c *C) {
 	err := s.client.MoveClients("/source1.ogg", "/source2.ogg")
 
@@ -300,6 +310,7 @@ func runHTTPServer(c *C, port string) {
 	}
 
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/metadata", handlerMetadata)
+	server.Handler.(*http.ServeMux).HandleFunc("/admin/fallback", handlerFallback)
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/listclients", handlerListClients)
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/moveclients", handlerMoveClients)
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/killclient", handlerKillClient)
@@ -342,6 +353,23 @@ func handlerMetadata(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(200)
 	w.Write(getResponseData("metadata.xml"))
+}
+
+func handlerFallback(w http.ResponseWriter, r *http.Request) {
+	if !isBasicAuthSet(r) {
+		w.WriteHeader(403)
+		return
+	}
+
+	mount := r.URL.Query().Get("mount")
+	fallback := r.URL.Query().Get("fallback")
+
+	if mount != "/source1.ogg" || fallback == "" {
+		w.WriteHeader(400)
+		return
+	}
+
+	w.WriteHeader(200)
 }
 
 func handlerListClients(w http.ResponseWriter, r *http.Request) {
