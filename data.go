@@ -112,9 +112,11 @@ type AudioInfo struct {
 
 // TrackInfo contains info about current playing track
 type TrackInfo struct {
-	Artist  string
-	Title   string
-	RawInfo string
+	Artist      string
+	Title       string
+	Artwork     string
+	MetadataURL string
+	RawInfo     string
 }
 
 // Mount contains basic info about source mount
@@ -178,6 +180,7 @@ type iceSource struct {
 	Mount               string `xml:"mount,attr"`
 	Artist              string `xml:"artist"`
 	Title               string `xml:"title"`
+	Artwork             string `xml:"artwork"`
 	AudioBitrate        int    `xml:"audio_bitrate"`
 	AudioChannels       int    `xml:"audio_channels"`
 	AudioInfo           string `xml:"audio_info"`
@@ -198,6 +201,7 @@ type iceSource struct {
 	ListenURL           string `xml:"listenurl"`
 	MaxListeners        string `xml:"max_listeners"`
 	MetadataUpdated     string `xml:"metadata_updated"`
+	MetadataURL         string `xml:"metadata_url"`
 	OutgoingKbitrate    int    `xml:"outgoing_kbitrate"`
 	Public              int    `xml:"public"`
 	QueueSize           int    `xml:"queue_size"`
@@ -336,9 +340,11 @@ func convertStats(sv *iceStats) *Stats {
 				SampleRate: s.IceSamplerate,
 			},
 			Track: &TrackInfo{
-				Artist:  s.Artist,
-				Title:   s.Title,
-				RawInfo: s.YpCurrentlyPlaying,
+				Artist:      s.Artist,
+				Title:       s.Title,
+				Artwork:     s.Artwork,
+				MetadataURL: s.MetadataURL,
+				RawInfo:     s.YpCurrentlyPlaying,
 			},
 			Info: &SourceInfo{
 				Name:        s.ServerName,
