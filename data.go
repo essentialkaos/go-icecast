@@ -135,6 +135,17 @@ type Listener struct {
 	Connected int    `xml:"Connected"`
 }
 
+// TrackMeta contains track meta
+type TrackMeta struct {
+	Song    string
+	Title   string
+	Artist  string
+	URL     string
+	Artwork string
+	Charset string
+	Intro   string
+}
+
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 type iceStats struct {
@@ -232,6 +243,45 @@ func (s *Stats) GetSource(mount string) *Source {
 	}
 
 	return s.Sources["/"+mount]
+}
+
+// ToQuery encodes meta for URL query
+func (m TrackMeta) ToQuery() string {
+	var result string
+
+	if m.Song != "" {
+		result += "song=" + esc(m.Song) + "&"
+	}
+
+	if m.Title != "" {
+		result += "title=" + esc(m.Title) + "&"
+	}
+
+	if m.Artist != "" {
+		result += "artist=" + esc(m.Artist) + "&"
+	}
+
+	if m.URL != "" {
+		result += "url=" + esc(m.URL) + "&"
+	}
+
+	if m.Artwork != "" {
+		result += "artwork=" + esc(m.Artwork) + "&"
+	}
+
+	if m.Charset != "" {
+		result += "charset=" + esc(m.Charset) + "&"
+	}
+
+	if m.Intro != "" {
+		result += "intro=" + esc(m.Intro) + "&"
+	}
+
+	if len(result) == 0 {
+		return "song=Unknown"
+	}
+
+	return result[:len(result)-1]
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //

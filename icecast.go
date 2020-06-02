@@ -109,8 +109,8 @@ func (api *API) ListClients(mount string) ([]*Listener, error) {
 }
 
 // UpdateMeta updates meta for given mount source
-func (api *API) UpdateMeta(mount, artist, title string) error {
-	url := "/metadata?mode=updinfo&mount=" + mount + "&artist=" + esc(artist) + "&title=" + esc(title)
+func (api *API) UpdateMeta(mount string, meta TrackMeta) error {
+	url := "/metadata?mode=updinfo&mount=" + mount + "&" + meta.ToQuery()
 	data, err := api.doRequest(url)
 
 	if err != nil {

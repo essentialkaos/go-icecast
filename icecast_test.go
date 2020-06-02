@@ -221,15 +221,17 @@ func (s *IcecastSuite) TestListMounts(c *C) {
 }
 
 func (s *IcecastSuite) TestMetadata(c *C) {
-	err := s.client.UpdateMeta("/source1.ogg", "Future Engineers", "Source Code")
+	meta := TrackMeta{Artist: "Future Engineers", Title: "Source Code"}
+
+	err := s.client.UpdateMeta("/source1.ogg", meta)
 
 	c.Assert(err, IsNil)
 
-	err = s.client.UpdateMeta("/source2.ogg", "Future Engineers", "Source Code")
+	err = s.client.UpdateMeta("/source2.ogg", meta)
 
 	c.Assert(err, NotNil)
 
-	err = s.client.UpdateMeta("/source99.ogg", "Future Engineers", "Source Code")
+	err = s.client.UpdateMeta("/source99.ogg", meta)
 
 	c.Assert(err, NotNil)
 }
@@ -291,6 +293,21 @@ func (s *IcecastSuite) TestUnmarshallingErrors(c *C) {
 func (s *IcecastSuite) TestAux(c *C) {
 	c.Assert(parseMax("unlimited"), Equals, -1)
 	c.Assert(parseMax("1000"), Equals, 1000)
+}
+
+func (s *IcecastSuite) TestMetaEncoder(c *C) {
+	meta := TrackMeta{
+		Song:    "A",
+		Title:   "CD",
+		Artist:  "AB",
+		URL:     "http://domain.com",
+		Artwork: "http://domain.com/cover.jpg",
+		Charset: "utf-8",
+		Intro:   "intro.ogg",
+	}
+
+	c.Assert(meta.ToQuery(), Equals, `song=A&title=CD&artist=AB&url=http%3A%2F%2Fdomain.com&artwork=http%3A%2F%2Fdomain.com%2Fcover.jpg&charset=utf-8&intro=intro.ogg`)
+	c.Assert(TrackMeta{}.ToQuery(), Equals, "song=Unknown")
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
