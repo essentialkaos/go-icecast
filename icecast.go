@@ -35,19 +35,19 @@ type API struct {
 // API errors
 var (
 	ErrInitEmptyURL      = errors.New("URL can't be empty")
-	ErrInitEmptyApp      = errors.New("App can't be empty")
+	ErrInitEmptyUser     = errors.New("User can't be empty")
 	ErrInitEmptyPassword = errors.New("Password can't be empty")
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // NewAPI creates new API struct
-func NewAPI(url, app, password string) (*API, error) {
+func NewAPI(url, user, password string) (*API, error) {
 	switch {
 	case url == "":
 		return nil, ErrInitEmptyURL
-	case app == "":
-		return nil, ErrInitEmptyApp
+	case user == "":
+		return nil, ErrInitEmptyUser
 	case password == "":
 		return nil, ErrInitEmptyPassword
 	}
@@ -62,7 +62,7 @@ func NewAPI(url, app, password string) (*API, error) {
 		},
 
 		url:       url,
-		basicAuth: genBasicAuthHeader(app, password),
+		basicAuth: genBasicAuthHeader(user, password),
 	}, nil
 }
 
