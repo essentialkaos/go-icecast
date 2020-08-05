@@ -1,13 +1,13 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/go-icecast.svg"/></a></p>
 
 <p align="center">
-  <a href="https://godoc.org/pkg.re/essentialkaos/go-icecast.v2"><img src="https://godoc.org/pkg.re/essentialkaos/go-icecast.v2?status.svg"></a>
+  <a href="https://pkg.go.dev/github.com/essentialkaos/go-icecast"><img src="https://pkg.go.dev/badge/github.com/essentialkaos/go-icecast" alt="PkgGoDev"></a>
   <a href="https://goreportcard.com/report/github.com/essentialkaos/go-icecast"><img src="https://goreportcard.com/badge/github.com/essentialkaos/go-icecast"></a>
   <a href="https://travis-ci.com/essentialkaos/go-icecast"><img src="https://travis-ci.com/essentialkaos/go-icecast.svg"></a>
   <a href="https://github.com/essentialkaos/go-icecast/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/go-icecast/workflows/CodeQL/badge.svg" /></a>
   <a href="https://codebeat.co/projects/github-com-essentialkaos-go-icecast-master"><img alt="codebeat badge" src="https://codebeat.co/badges/b2237e1d-2089-40f3-bfa1-f66bc79c68a8"></a>
   <a href='https://coveralls.io/github/essentialkaos/go-icecast?branch=develop'><img src='https://coveralls.io/repos/github/essentialkaos/go-icecast/badge.svg?branch=develop' alt='Coverage Status' /></a>
-  <a href="https://essentialkaos.com/ekol"><img src="https://gh.kaos.st/ekol.svg"></a>
+  <a href="#license"><img src="https://gh.kaos.st/apache2.svg"></a>
 </p>
 
 <p align="center"><a href="#installation">Installation</a> • <a href="#usage-example">Usage example</a> • <a href="#build-status">Build Status</a> • <a href="#license">License</a></p>
@@ -75,6 +75,6 @@ func main() {
 
 ### License
 
-[EKOL](https://essentialkaos.com/ekol)
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 <p align="center"><a href="https://essentialkaos.com"><img src="https://gh.kaos.st/ekgh.svg"/></a></p>
