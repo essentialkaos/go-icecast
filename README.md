@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://pkg.go.dev/github.com/essentialkaos/go-icecast"><img src="https://pkg.go.dev/badge/github.com/essentialkaos/go-icecast" alt="PkgGoDev"></a>
   <a href="https://goreportcard.com/report/github.com/essentialkaos/go-icecast"><img src="https://goreportcard.com/badge/github.com/essentialkaos/go-icecast"></a>
-  <a href="https://travis-ci.com/essentialkaos/go-icecast"><img src="https://travis-ci.com/essentialkaos/go-icecast.svg"></a>
+  <a href="https://github.com/essentialkaos/go-icecast/actions"><img src="https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg" alt="GitHub Actions Status" /></a>
   <a href="https://github.com/essentialkaos/go-icecast/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/go-icecast/workflows/CodeQL/badge.svg" /></a>
   <a href="https://codebeat.co/projects/github-com-essentialkaos-go-icecast-master"><img alt="codebeat badge" src="https://codebeat.co/badges/b2237e1d-2089-40f3-bfa1-f66bc79c68a8"></a>
   <a href='https://coveralls.io/github/essentialkaos/go-icecast?branch=develop'><img src='https://coveralls.io/repos/github/essentialkaos/go-icecast/badge.svg?branch=develop' alt='Coverage Status' /></a>
@@ -18,13 +18,7 @@
 
 ### Installation
 
-Before the initial install allows git to use redirects for [pkg.re](https://github.com/essentialkaos/pkgre) service (_reason why you should do this described [here](https://github.com/essentialkaos/pkgre#git-support)_):
-
-```
-git config --global http.https://pkg.re.followRedirects true
-```
-
-Make sure you have a working Go 1.13+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+Make sure you have a working Go 1.14+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ````
 go get pkg.re/essentialkaos/go-icecast.v2
@@ -70,8 +64,8 @@ func main() {
 
 | Branch     | Status |
 |------------|--------|
-| `master` (_Stable_) | [![Build Status](https://travis-ci.com/essentialkaos/go-icecast.svg?branch=master)](https://travis-ci.com/essentialkaos/go-icecast) |
-| `develop` (_Unstable_) | [![Build Status](https://travis-ci.com/essentialkaos/go-icecast.svg?branch=develop)](https://travis-ci.com/essentialkaos/go-icecast) |
+| `master` (_Stable_) | [![CI](https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg?branch=master)](https://github.com/essentialkaos/go-icecast/actions) |
+| `develop` (_Unstable_) | [![CI](https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg?branch=develop)](https://github.com/essentialkaos/go-icecast/actions) |
 
 ### License
 
