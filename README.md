@@ -1,7 +1,7 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/go-icecast.svg"/></a></p>
 
 <p align="center">
-  <a href="https://pkg.go.dev/github.com/essentialkaos/go-icecast"><img src="https://pkg.go.dev/badge/github.com/essentialkaos/go-icecast" alt="PkgGoDev"></a>
+  <a href="https://pkg.go.dev/pkg.re/essentialkaos/go-icecast.v2"><img src="https://gh.kaos.st/godoc.svg" alt="PkgGoDev"></a>
   <a href="https://goreportcard.com/report/github.com/essentialkaos/go-icecast"><img src="https://goreportcard.com/badge/github.com/essentialkaos/go-icecast"></a>
   <a href="https://github.com/essentialkaos/go-icecast/actions"><img src="https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg" alt="GitHub Actions Status" /></a>
   <a href="https://github.com/essentialkaos/go-icecast/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/go-icecast/workflows/CodeQL/badge.svg" /></a>
