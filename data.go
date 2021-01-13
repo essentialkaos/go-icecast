@@ -62,19 +62,19 @@ type Sources map[string]*Source
 
 // Source contains info about source
 type Source struct {
+	MetadataUpdated time.Time
+	StreamStarted   time.Time
+	Bitrate         string
+	Genre           string
+	ListenURL       string
+	SourceIP        string
+	UserAgent       string
 	AudioInfo       *AudioInfo
 	IceAudioInfo    *AudioInfo
 	Info            *SourceInfo
 	Stats           *SourceStats
 	Track           *TrackInfo
-	Bitrate         string
-	Genre           string
-	ListenURL       string
-	MetadataUpdated time.Time
-	StreamStarted   time.Time
 	Public          bool
-	SourceIP        string
-	UserAgent       string
 }
 
 // SourceInfo contains basic source info
