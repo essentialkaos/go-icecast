@@ -1,12 +1,12 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/go-icecast.svg"/></a></p>
 
 <p align="center">
-  <a href="https://pkg.re/essentialkaos/go-icecast.v2?docs"><img src="https://gh.kaos.st/godoc.svg" alt="PkgGoDev"></a>
-  <a href="https://goreportcard.com/report/github.com/essentialkaos/go-icecast"><img src="https://goreportcard.com/badge/github.com/essentialkaos/go-icecast"></a>
-  <a href="https://github.com/essentialkaos/go-icecast/actions"><img src="https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg" alt="GitHub Actions Status" /></a>
-  <a href="https://github.com/essentialkaos/go-icecast/actions?query=workflow%3ACodeQL"><img src="https://github.com/essentialkaos/go-icecast/workflows/CodeQL/badge.svg" /></a>
-  <a href="https://codebeat.co/projects/github-com-essentialkaos-go-icecast-master"><img alt="codebeat badge" src="https://codebeat.co/badges/b2237e1d-2089-40f3-bfa1-f66bc79c68a8"></a>
-  <a href='https://coveralls.io/github/essentialkaos/go-icecast?branch=develop'><img src='https://coveralls.io/repos/github/essentialkaos/go-icecast/badge.svg?branch=develop' alt='Coverage Status' /></a>
+  <a href="https://kaos.sh/g/go-icecast.v2"><img src="https://gh.kaos.st/godoc.svg" alt="PkgGoDev" /></a>
+  <a href="https://kaos.sh/r/go-icecast"><img src="https://kaos.sh/r/go-icecast.svg" alt="GoReportCard" /></a>
+  <a href="https://kaos.sh/w/go-icecast/ci"><img src="https://kaos.sh/w/go-icecast/ci.svg" alt="GitHub Actions CI Status" /></a>
+  <a href="https://kaos.sh/w/go-icecast/codeql"><img src="https://kaos.sh/w/go-icecast/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
+  <a href="https://kaos.sh/b/go-icecast"><img src="https://kaos.sh/b/b2237e1d-2089-40f3-bfa1-f66bc79c68a8.svg" alt="Codebeat badge" /></a>
+  <a href="https://kaos.sh/c/go-icecast"><img src="https://kaos.sh/c/go-icecast.svg" alt="Coverage Status" /></a>
   <a href="#license"><img src="https://gh.kaos.st/apache2.svg"></a>
 </p>
 
@@ -18,16 +18,16 @@
 
 ### Installation
 
-Make sure you have a working Go 1.14+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+Make sure you have a working Go 1.15+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ````
-go get pkg.re/essentialkaos/go-icecast.v2
+go get -d pkg.re/essentialkaos/go-icecast.v2
 ````
 
 For update to latest stable release, do:
 
 ```
-go get -u pkg.re/essentialkaos/go-icecast.v2
+go get -d -u pkg.re/essentialkaos/go-icecast.v2
 ```
 
 ### Usage example
@@ -64,8 +64,8 @@ func main() {
 
 | Branch     | Status |
 |------------|--------|
-| `master` (_Stable_) | [![CI](https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg?branch=master)](https://github.com/essentialkaos/go-icecast/actions) |
-| `develop` (_Unstable_) | [![CI](https://github.com/essentialkaos/go-icecast/workflows/CI/badge.svg?branch=develop)](https://github.com/essentialkaos/go-icecast/actions) |
+| `master` (_Stable_) | [![CI](https://kaos.sh/w/go-icecast/ci.svg?branch=master)](https://kaos.sh/w/go-icecast/ci?query=branch:master) |
+| `develop` (_Unstable_) | [![CI](https://kaos.sh/w/go-icecast/ci.svg?branch=develop)](https://kaos.sh/w/go-icecast/ci?query=branch:develop) |
 
 ### License
 
