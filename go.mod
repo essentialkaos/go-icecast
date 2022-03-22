@@ -1,4 +1,4 @@
-module github.com/essentialkaos/go-icecast
+module github.com/essentialkaos/go-icecast/v2
 
 go 1.17
 
