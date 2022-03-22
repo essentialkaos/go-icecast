@@ -122,7 +122,7 @@ type TrackInfo struct {
 // Mount contains basic info about source mount
 type Mount struct {
 	Path        string `xml:"mount,attr"`
-	Listeners   int    `xml:"Listeners"`
+	Listeners   int    `xml:"listeners"`
 	Connected   int    `xml:"Connected"`
 	ContentType string `xml:"content-type"`
 }
