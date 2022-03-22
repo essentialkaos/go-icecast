@@ -1,7 +1,7 @@
 <p align="center"><a href="#readme"><img src="https://gh.kaos.st/go-icecast.svg"/></a></p>
 
 <p align="center">
-  <a href="https://kaos.sh/g/go-icecast.v2"><img src="https://gh.kaos.st/godoc.svg" alt="PkgGoDev" /></a>
+  <a href="https://kaos.sh/g/go-icecast"><img src="https://gh.kaos.st/godoc.svg" alt="PkgGoDev" /></a>
   <a href="https://kaos.sh/r/go-icecast"><img src="https://kaos.sh/r/go-icecast.svg" alt="GoReportCard" /></a>
   <a href="https://kaos.sh/w/go-icecast/ci"><img src="https://kaos.sh/w/go-icecast/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/go-icecast/codeql"><img src="https://kaos.sh/w/go-icecast/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
@@ -18,16 +18,16 @@
 
 ### Installation
 
-Make sure you have a working Go 1.16+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+Make sure you have a working Go 1.17+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
 ````
-go get -d pkg.re/essentialkaos/go-icecast.v2
+go get -d github.com/essentialkaos/go-icecast/v2
 ````
 
 For update to latest stable release, do:
 
 ```
-go get -d -u pkg.re/essentialkaos/go-icecast.v2
+go get -d -u github.com/essentialkaos/go-icecast/v2
 ```
 
 ### Usage example
@@ -37,7 +37,7 @@ package main
 
 import (
   "fmt"
-  ic "pkg.re/essentialkaos/go-icecast.v2"
+  ic "pkg.re/essentialkaos/go-icecast/v2"
 )
 
 func main() {
