@@ -46,6 +46,10 @@ jobs:
         working-directory: ${{env.SRC_DIR}}
         run: make deps
 
+      - name: Run tests
+        working-directory: ${{env.SRC_DIR}}
+        run: go test -covermode=count -coverprofile=cover.out
+
       - name: Send coverage data
         uses: essentialkaos/goveralls-action@v1
         env:
