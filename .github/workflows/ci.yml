@@ -56,7 +56,7 @@ jobs:
           parallel: true
           flag-name: linux-${{ matrix.go }}
 
-    SendCoverage:
+  SendCoverage:
     name: Send Coverage
     runs-on: ubuntu-latest
 
