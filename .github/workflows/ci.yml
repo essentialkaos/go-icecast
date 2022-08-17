@@ -18,18 +18,16 @@ jobs:
 
     env:
       SRC_DIR: src/github.com/${{ github.repository }}
-      GO111MODULE: auto
 
     strategy:
       matrix:
-        go: [ '1.17.x', '1.18.x' ]
+        go: [ '1.18.x', '1.19.x' ]
 
     steps:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
-        id: go
 
       - name: Setup PATH
         run: |
