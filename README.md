@@ -18,16 +18,10 @@
 
 ### Installation
 
-Make sure you have a working Go 1.17+ workspace (_[instructions](https://golang.org/doc/install)_), then:
+Make sure you have a working Go 1.18+ workspace (_[instructions](https://golang.org/doc/install)_), then:
 
-````
-go get -d github.com/essentialkaos/go-icecast/v2
-````
-
-For update to latest stable release, do:
-
-```
-go get -d -u github.com/essentialkaos/go-icecast/v2
+```bash
+go get -u github.com/essentialkaos/go-icecast/v2
 ```
 
 ### Usage example
