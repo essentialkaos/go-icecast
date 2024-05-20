@@ -2,14 +2,13 @@ package icecast
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2022 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2023 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -505,6 +504,6 @@ func isBasicAuthSet(r *http.Request) bool {
 }
 
 func getResponseData(filename string) []byte {
-	data, _ := ioutil.ReadFile("testdata/" + filename)
+	data, _ := os.ReadFile("testdata/" + filename)
 	return data
 }

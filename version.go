@@ -2,7 +2,7 @@ package icecast
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2022 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2023 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -12,7 +12,7 @@ const (
 	NAME = "Go-Icecast"
 
 	// VERSION is package version
-	VERSION = "2.0.6"
+	VERSION = "2.0.7"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //

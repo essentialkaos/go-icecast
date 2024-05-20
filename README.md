@@ -10,25 +10,11 @@
   <a href="#license"><img src="https://gh.kaos.st/apache2.svg"></a>
 </p>
 
-<p align="center"><a href="#installation">Installation</a> • <a href="#usage-example">Usage example</a> • <a href="#build-status">Build Status</a> • <a href="#license">License</a></p>
+<p align="center"><a href="#usage-example">Usage example</a> • <a href="#ci-status">CI Status</a> • <a href="#license">License</a></p>
 
 <br/>
 
 `go-icecast` is a Go package for working with [Icecast Admin API](http://icecast.org/docs/icecast-2.4.1/admin-interface.html).
-
-### Installation
-
-Make sure you have a working Go 1.17+ workspace (_[instructions](https://golang.org/doc/install)_), then:
-
-````
-go get -d github.com/essentialkaos/go-icecast/v2
-````
-
-For update to latest stable release, do:
-
-```
-go get -d -u github.com/essentialkaos/go-icecast/v2
-```
 
 ### Usage example
 
@@ -60,7 +46,7 @@ func main() {
 }
 ```
 
-### Build Status
+### CI Status
 
 | Branch     | Status |
 |------------|--------|
