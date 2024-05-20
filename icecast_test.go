@@ -9,7 +9,6 @@ package icecast
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -505,6 +504,6 @@ func isBasicAuthSet(r *http.Request) bool {
 }
 
 func getResponseData(filename string) []byte {
-	data, _ := ioutil.ReadFile("testdata/" + filename)
+	data, _ := os.ReadFile("testdata/" + filename)
 	return data
 }
