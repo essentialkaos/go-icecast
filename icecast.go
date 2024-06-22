@@ -266,15 +266,15 @@ func (api *API) acquireRequest(uri string) *fasthttp.Request {
 func getUserAgent(app, version string) string {
 	if app != "" && version != "" {
 		return fmt.Sprintf(
-			"%s/%s %s/%s (go; %s; %s-%s)",
-			app, version, NAME, VERSION, runtime.Version(),
+			"%s/%s go-icecast/2 (go; %s; %s-%s)",
+			app, version, runtime.Version(),
 			runtime.GOARCH, runtime.GOOS,
 		)
 	}
 
 	return fmt.Sprintf(
-		"%s/%s (go; %s; %s-%s)",
-		NAME, VERSION, runtime.Version(),
+		"go-icecast/2 (go; %s; %s-%s)",
+		runtime.Version(),
 		runtime.GOARCH, runtime.GOOS,
 	)
 }
