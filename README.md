@@ -5,7 +5,6 @@
   <a href="https://kaos.sh/r/go-icecast"><img src="https://kaos.sh/r/go-icecast.svg" alt="GoReportCard" /></a>
   <a href="https://kaos.sh/w/go-icecast/ci"><img src="https://kaos.sh/w/go-icecast/ci.svg" alt="GitHub Actions CI Status" /></a>
   <a href="https://kaos.sh/w/go-icecast/codeql"><img src="https://kaos.sh/w/go-icecast/codeql.svg" alt="GitHub Actions CodeQL Status" /></a><br/>
-  <a href="https://kaos.sh/b/go-icecast"><img src="https://kaos.sh/b/b2237e1d-2089-40f3-bfa1-f66bc79c68a8.svg" alt="Codebeat badge" /></a>
   <a href="https://kaos.sh/c/go-icecast"><img src="https://kaos.sh/c/go-icecast.svg" alt="Coverage Status" /></a>
   <a href="#license"><img src=".github/images/license.svg"/></a>
 </p>
