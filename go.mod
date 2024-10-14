@@ -3,7 +3,7 @@ module github.com/essentialkaos/go-icecast/v2
 go 1.22.8
 
 require (
-	github.com/essentialkaos/check v1.4.0
+	github.com/essentialkaos/check v1.4.1
 	github.com/valyala/fasthttp v1.56.0
 )
 
