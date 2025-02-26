@@ -2,41 +2,40 @@ package icecast
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                         Copyright (c) 2023 ESSENTIAL KAOS                          //
+//                         Copyright (c) 2025 ESSENTIAL KAOS                          //
 //      Apache License, Version 2.0 <https://www.apache.org/licenses/LICENSE-2.0>     //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 import (
-	"encoding/base64"
 	"encoding/xml"
 	"errors"
 	"fmt"
-	"net/url"
-	"runtime"
-	"strconv"
-	"time"
 
-	"github.com/valyala/fasthttp"
+	"github.com/essentialkaos/ek/v13/req"
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// API is Confluence API struct
-type API struct {
-	Client *fasthttp.Client // Client is client for http requests
+// USER_AGENT is user-agent of API client
+const USER_AGENT = "go-icecast/3"
 
-	url       string // confluence URL
-	basicAuth string // basic auth
+// ////////////////////////////////////////////////////////////////////////////////// //
+
+// API is Icecast API client
+type API struct {
+	engine   *req.Engine
+	url      string
+	user     string
+	password string
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// API errors
 var (
-	ErrInitEmptyURL      = errors.New("URL can't be empty")
-	ErrInitEmptyUser     = errors.New("User can't be empty")
-	ErrInitEmptyPassword = errors.New("Password can't be empty")
+	ErrEmptyURL      = errors.New("URL is empty")
+	ErrEmptyUser     = errors.New("Username is empty")
+	ErrEmptyPassword = errors.New("Password is empty")
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -45,145 +44,46 @@ var (
 func NewAPI(url, user, password string) (*API, error) {
 	switch {
 	case url == "":
-		return nil, ErrInitEmptyURL
+		return nil, ErrEmptyURL
 	case user == "":
-		return nil, ErrInitEmptyUser
+		return nil, ErrEmptyUser
 	case password == "":
-		return nil, ErrInitEmptyPassword
+		return nil, ErrEmptyPassword
 	}
 
-	return &API{
-		Client: &fasthttp.Client{
-			Name:                getUserAgent("", ""),
-			MaxIdleConnDuration: 5 * time.Second,
-			ReadTimeout:         3 * time.Second,
-			WriteTimeout:        3 * time.Second,
-			MaxConnsPerHost:     150,
-		},
+	engine := &req.Engine{}
+	engine.SetUserAgent("go-icecast", "3")
 
-		url:       url,
-		basicAuth: genBasicAuthHeader(user, password),
-	}, nil
+	return &API{engine: engine, url: url, user: user, password: password}, nil
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // SetUserAgent set user-agent string based on app name and version
 func (api *API) SetUserAgent(app, version string) {
-	api.Client.Name = getUserAgent(app, version)
+	api.engine.SetUserAgent(app, version, USER_AGENT)
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 // GetStats fetches info about Icecast server
 func (api *API) GetStats() (*Stats, error) {
-	data, err := api.doRequest("/stats")
+	stats := &iceStats{}
+
+	err := api.doRequest("/stats", nil, stats)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return parseStatsData(data)
+	return convertStats(stats), nil
 }
 
 // ListMounts fetches info about mounted sources
 func (api *API) ListMounts() ([]*Mount, error) {
-	data, err := api.doRequest("/listmounts")
-
-	if err != nil {
-		return nil, err
-	}
-
-	return parseMountsData(data)
-}
-
-// ListClients fetches list of listeners connected to given mount point
-func (api *API) ListClients(mount string) ([]*Listener, error) {
-	data, err := api.doRequest("/listclients?mount=" + mount)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return parseClientListData(data)
-}
-
-// UpdateMeta updates meta for given mount source
-func (api *API) UpdateMeta(mount string, meta TrackMeta) error {
-	url := "/metadata?mode=updinfo&mount=" + mount + "&" + meta.ToQuery()
-	data, err := api.doRequest(url)
-
-	if err != nil {
-		return err
-	}
-
-	return checkResponseData(data)
-}
-
-// UpdateFallback updates fallback for given mount source
-func (api *API) UpdateFallback(mount, fallback string) error {
-	url := "/fallback?mount=" + mount + "&fallback=" + fallback
-	data, err := api.doRequest(url)
-
-	if err != nil {
-		return err
-	}
-
-	return checkResponseData(data)
-}
-
-// MoveClients moves clients from one source to another
-func (api *API) MoveClients(from, to string) error {
-	url := "/moveclients?mount=" + from + "&destination=" + to
-	data, err := api.doRequest(url)
-
-	if err != nil {
-		return err
-	}
-
-	return checkResponseData(data)
-}
-
-// KillClient kills client with given ID connected to given mount point
-func (api *API) KillClient(mount string, id int) error {
-	data, err := api.doRequest("/killclient?mount=" + mount + "&id=" + strconv.Itoa(id))
-
-	if err != nil {
-		return err
-	}
-
-	return checkResponseData(data)
-}
-
-// KillSource kills the source with given mount point
-func (api *API) KillSource(mount string) error {
-	data, err := api.doRequest("/killsource?mount=" + mount)
-
-	if err != nil {
-		return err
-	}
-
-	return checkResponseData(data)
-}
-
-// ////////////////////////////////////////////////////////////////////////////////// //
-
-// parseStatsData parses raw XML data with Icecast stats
-func parseStatsData(data []byte) (*Stats, error) {
-	server := &iceStats{}
-	err := xml.Unmarshal(data, server)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return convertStats(server), nil
-}
-
-// parseMountsData parses raw XML data with Icecast mounts info
-func parseMountsData(data []byte) ([]*Mount, error) {
 	mounts := &iceMounts{}
-	err := xml.Unmarshal(data, mounts)
+
+	err := api.doRequest("/listmounts", nil, mounts)
 
 	if err != nil {
 		return nil, err
@@ -192,10 +92,11 @@ func parseMountsData(data []byte) ([]*Mount, error) {
 	return mounts.Mounts, nil
 }
 
-// parseClientListData parses raw XML data with Icecast listeners
-func parseClientListData(data []byte) ([]*Listener, error) {
+// ListClients fetches list of listeners connected to given mount point
+func (api *API) ListClients(mount string) ([]*Listener, error) {
 	listeners := &iceListeners{}
-	err := xml.Unmarshal(data, listeners)
+
+	err := api.doRequest("/listclients", req.Query{"mount": mount}, listeners)
 
 	if err != nil {
 		return nil, err
@@ -204,87 +105,136 @@ func parseClientListData(data []byte) ([]*Listener, error) {
 	return listeners.Listeners, nil
 }
 
-// checkResponseData checks default Icecast response for errors
-func checkResponseData(data []byte) error {
-	if len(data) == 0 {
-		return nil
-	}
+// UpdateMeta updates meta for given mount source
+func (api *API) UpdateMeta(mount string, meta TrackMeta) error {
+	query := meta.ToQuery()
+	query["mode"] = "updinfo"
+	query["mount"] = mount
 
 	response := &iceResponse{}
-	err := xml.Unmarshal(data, response)
+
+	err := api.doRequest("/metadata", query, response)
 
 	if err != nil {
 		return err
 	}
 
-	if response.Return == 1 {
-		return nil
+	return parseResponse(response)
+}
+
+// UpdateFallback updates fallback for given mount source
+func (api *API) UpdateFallback(mount, fallback string) error {
+	response := &iceResponse{}
+
+	err := api.doRequest(
+		"/fallback",
+		req.Query{
+			"mount":    mount,
+			"fallback": fallback,
+		},
+		response,
+	)
+
+	if err != nil {
+		return err
 	}
 
-	return fmt.Errorf(response.Message)
+	return parseResponse(response)
+}
+
+// MoveClients moves clients from one source to another
+func (api *API) MoveClients(mount, dest string) error {
+	response := &iceResponse{}
+
+	err := api.doRequest(
+		"/moveclients",
+		req.Query{
+			"mount":       mount,
+			"destination": dest,
+		},
+		response,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return parseResponse(response)
+}
+
+// KillClient kills client with given ID connected to given mount point
+func (api *API) KillClient(mount string, id int) error {
+	response := &iceResponse{}
+
+	err := api.doRequest(
+		"/killclient",
+		req.Query{
+			"mount": mount,
+			"id":    id,
+		},
+		response,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return parseResponse(response)
+}
+
+// KillSource kills the source with given mount point
+func (api *API) KillSource(mount string) error {
+	response := &iceResponse{}
+
+	err := api.doRequest("/killsource", req.Query{"mount": mount}, response)
+
+	if err != nil {
+		return err
+	}
+
+	return parseResponse(response)
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// codebeat:disable[ARITY]
-
-// doRequest creates and executes request
-func (api *API) doRequest(uri string) ([]byte, error) {
-	req := api.acquireRequest(uri)
-	resp := fasthttp.AcquireResponse()
-
-	defer fasthttp.ReleaseRequest(req)
-	defer fasthttp.ReleaseResponse(resp)
-
-	err := api.Client.Do(req, resp)
+// doRequest sends request to Icecast API
+func (api *API) doRequest(endpoint string, query req.Query, response any) error {
+	resp, err := api.engine.Get(req.Request{
+		URL:    api.url + "/admin" + endpoint,
+		Auth:   req.AuthBasic{api.user, api.password},
+		Query:  query,
+		Accept: req.CONTENT_TYPE_XML,
+	})
 
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("Can't send request to Icecast API: %w", err)
 	}
 
-	statusCode := resp.StatusCode()
-
-	if statusCode != 200 {
-		return nil, fmt.Errorf("Server return status code %d", statusCode)
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("API returned non-ok status code %d", resp.StatusCode)
 	}
 
-	return resp.Body(), nil
-}
+	xmlDec := xml.NewDecoder(resp.Body)
+	err = xmlDec.Decode(response)
 
-// acquireRequest acquire new request with given params
-func (api *API) acquireRequest(uri string) *fasthttp.Request {
-	req := fasthttp.AcquireRequest()
-	req.SetRequestURI(api.url + "/admin" + uri)
-
-	// Set auth header
-	req.Header.Add("Authorization", "Basic "+api.basicAuth)
-
-	return req
-}
-
-// getUserAgent generate user-agent string for client
-func getUserAgent(app, version string) string {
-	if app != "" && version != "" {
-		return fmt.Sprintf(
-			"%s/%s go-icecast/2 (go; %s; %s-%s)",
-			app, version, runtime.Version(),
-			runtime.GOARCH, runtime.GOOS,
-		)
+	if err != nil {
+		return fmt.Errorf("Can't parse API response: %w", err)
 	}
 
-	return fmt.Sprintf(
-		"go-icecast/2 (go; %s; %s-%s)",
-		runtime.Version(),
-		runtime.GOARCH, runtime.GOOS,
-	)
+	return nil
 }
 
-// genBasicAuthHeader generate basic auth header
-func genBasicAuthHeader(username, password string) string {
-	return base64.StdEncoding.EncodeToString([]byte(username + ":" + password))
-}
+// ////////////////////////////////////////////////////////////////////////////////// //
 
-// esc escapes the string so it can be safely placed inside a URL query
-func esc(s string) string {
-	return url.QueryEscape(s)
+// parseResponse parses default Icecast response
+func parseResponse(resp *iceResponse) error {
+	if resp == nil {
+		return fmt.Errorf("Response has no data")
+	}
+
+	if resp.Return != 1 {
+		return fmt.Errorf(resp.Message)
+	}
+
+	return nil
 }
