@@ -275,23 +275,9 @@ func (s *IcecastSuite) TestKillSource(c *C) {
 	c.Assert(err, NotNil)
 }
 
-func (s *IcecastSuite) TestUnmarshallingErrors(c *C) {
-	_, err := parseStatsData([]byte("ABCD"))
+func (s *IcecastSuite) TestGarbageResponse(c *C) {
+	err := s.client.doRequest("/_garbage", nil, &iceResponse{})
 	c.Assert(err, NotNil)
-
-	_, err = parseMountsData([]byte("ABCD"))
-	c.Assert(err, NotNil)
-
-	_, err = parseClientListData([]byte("ABCD"))
-	c.Assert(err, NotNil)
-
-	err = checkResponseData([]byte("ABCD"))
-	c.Assert(err, NotNil)
-}
-
-func (s *IcecastSuite) TestAux(c *C) {
-	c.Assert(parseMax("unlimited"), Equals, -1)
-	c.Assert(parseMax("1000"), Equals, 1000)
 }
 
 func (s *IcecastSuite) TestMetaEncoder(c *C) {
@@ -305,8 +291,28 @@ func (s *IcecastSuite) TestMetaEncoder(c *C) {
 		Intro:   "intro.ogg",
 	}
 
-	c.Assert(meta.ToQuery(), Equals, `song=A&title=CD&artist=AB&url=http%3A%2F%2Fdomain.com&artwork=http%3A%2F%2Fdomain.com%2Fcover.jpg&charset=utf-8&intro=intro.ogg`)
-	c.Assert(TrackMeta{}.ToQuery(), Equals, "song=Unknown")
+	query := meta.ToQuery()
+
+	c.Assert(query, HasLen, 7)
+	c.Assert(query["song"], Equals, "A")
+	c.Assert(query["title"], Equals, "CD")
+	c.Assert(query["artist"], Equals, "AB")
+	c.Assert(query["url"], Equals, "http://domain.com")
+	c.Assert(query["artwork"], Equals, "http://domain.com/cover.jpg")
+	c.Assert(query["charset"], Equals, "utf-8")
+	c.Assert(query["intro"], Equals, "intro.ogg")
+
+	query = TrackMeta{}.ToQuery()
+
+	c.Assert(query, HasLen, 1)
+	c.Assert(query["song"], Equals, "Unknown")
+}
+
+func (s *IcecastSuite) TestAux(c *C) {
+	c.Assert(parseMax("unlimited"), Equals, -1)
+	c.Assert(parseMax("1000"), Equals, 1000)
+	c.Assert(parseResponse(&iceResponse{Return: 0, Message: "Error"}), NotNil)
+	c.Assert(parseResponse(nil), NotNil)
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -333,6 +339,7 @@ func runHTTPServer(c *C, port string) {
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/killsource", handlerKillSource)
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/stats", handlerStats)
 	server.Handler.(*http.ServeMux).HandleFunc("/admin/listmounts", handlerListMounts)
+	server.Handler.(*http.ServeMux).HandleFunc("/admin/_garbage", handlerGarbageResponse)
 
 	err = server.Serve(listener)
 
@@ -386,6 +393,7 @@ func handlerFallback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(200)
+	w.Write(getResponseData("fallback.xml"))
 }
 
 func handlerListClients(w http.ResponseWriter, r *http.Request) {
@@ -494,6 +502,11 @@ func handlerListMounts(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(200)
 	w.Write(getResponseData("listmounts.xml"))
+}
+
+func handlerGarbageResponse(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(200)
+	w.Write([]byte("@@@@"))
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //

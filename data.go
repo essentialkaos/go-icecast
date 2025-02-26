@@ -11,11 +11,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/essentialkaos/ek/v13/req"
 )
-
-// ////////////////////////////////////////////////////////////////////////////////// //
-
-const _DATE_FORMAT = "2/Jan/2006:15:04:05 -0700"
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
@@ -249,43 +247,39 @@ func (s *Stats) GetSource(mount string) *Source {
 	return s.Sources["/"+mount]
 }
 
-// ToQuery encodes meta for URL query
-func (m TrackMeta) ToQuery() string {
-	var result string
+// ToQuery encodes meta to URL query
+func (m TrackMeta) ToQuery() req.Query {
+	query := req.Query{"song": "Unknown"}
 
 	if m.Song != "" {
-		result += "song=" + esc(m.Song) + "&"
+		query["song"] = m.Song
 	}
 
 	if m.Title != "" {
-		result += "title=" + esc(m.Title) + "&"
+		query["title"] = m.Title
 	}
 
 	if m.Artist != "" {
-		result += "artist=" + esc(m.Artist) + "&"
+		query["artist"] = m.Artist
 	}
 
 	if m.URL != "" {
-		result += "url=" + esc(m.URL) + "&"
+		query["url"] = m.URL
 	}
 
 	if m.Artwork != "" {
-		result += "artwork=" + esc(m.Artwork) + "&"
+		query["artwork"] = m.Artwork
 	}
 
 	if m.Charset != "" {
-		result += "charset=" + esc(m.Charset) + "&"
+		query["charset"] = m.Charset
 	}
 
 	if m.Intro != "" {
-		result += "intro=" + esc(m.Intro) + "&"
+		query["intro"] = m.Intro
 	}
 
-	if len(result) == 0 {
-		return "song=Unknown"
-	}
-
-	return result[:len(result)-1]
+	return query
 }
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -416,6 +410,6 @@ func isNum(s string) bool {
 
 // parseDate parses date
 func parseDate(date string) time.Time {
-	result, _ := time.Parse(_DATE_FORMAT, date)
+	result, _ := time.Parse("2/Jan/2006:15:04:05 -0700", date)
 	return result
 }

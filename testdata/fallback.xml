@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<iceresponse>
+  <message>Set fallback for /source1.ogg as /source2.ogg</message>
+  <return>1</return>
+</iceresponse>
