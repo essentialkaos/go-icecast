@@ -22,7 +22,8 @@ package main
 
 import (
   "fmt"
-  ic "pkg.re/essentialkaos/go-icecast/v3"
+
+  ic "github.com/essentialkaos/go-icecast/v3"
 )
 
 func main() {
