@@ -4,7 +4,7 @@
   <a href="https://kaos.sh/g/go-icecast.v3"><img src=".github/images/godoc.svg"/></a>
   <a href="https://kaos.sh/r/go-icecast"><img src="https://kaos.sh/r/go-icecast.svg" alt="GoReportCard" /></a>
   <a href="https://kaos.sh/w/go-icecast/ci"><img src="https://kaos.sh/w/go-icecast/ci.svg" alt="GitHub Actions CI Status" /></a>
-  <a href="https://kaos.sh/w/go-icecast/codeql"><img src="https://kaos.sh/w/go-icecast/codeql.svg" alt="GitHub Actions CodeQL Status" /></a><br/>
+  <a href="https://kaos.sh/w/go-icecast/codeql"><img src="https://kaos.sh/w/go-icecast/codeql.svg" alt="GitHub Actions CodeQL Status" /></a>
   <a href="https://kaos.sh/c/go-icecast"><img src="https://kaos.sh/c/go-icecast.svg" alt="Coverage Status" /></a>
   <a href="#license"><img src=".github/images/license.svg"/></a>
 </p>
@@ -53,8 +53,12 @@ func main() {
 | `master` (_Stable_) | [![CI](https://kaos.sh/w/go-icecast/ci.svg?branch=master)](https://kaos.sh/w/go-icecast/ci?query=branch:master) |
 | `develop` (_Unstable_) | [![CI](https://kaos.sh/w/go-icecast/ci.svg?branch=develop)](https://kaos.sh/w/go-icecast/ci?query=branch:develop) |
 
+### Contributing
+
+Before contributing to this project please read our [Contributing Guidelines](https://github.com/essentialkaos/.github/blob/master/CONTRIBUTING.md).
+
 ### License
 
 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
-<p align="center"><a href="https://essentialkaos.com"><img src="https://gh.kaos.st/ekgh.svg"/></a></p>
+<p align="center"><a href="https://kaos.dev"><img src="https://raw.githubusercontent.com/essentialkaos/.github/refs/heads/master/images/ekgh.svg"/></a></p>
