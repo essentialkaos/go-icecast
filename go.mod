@@ -2,8 +2,6 @@ module github.com/essentialkaos/go-icecast/v3
 
 go 1.23.6
 
-toolchain go1.24.1
-
 require (
 	github.com/essentialkaos/check v1.4.1
 	github.com/essentialkaos/ek/v13 v13.25.0
