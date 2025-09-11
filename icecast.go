@@ -36,6 +36,7 @@ var (
 	ErrEmptyURL      = errors.New("URL is empty")
 	ErrEmptyUser     = errors.New("Username is empty")
 	ErrEmptyPassword = errors.New("Password is empty")
+	ErrNoRespData    = errors.New("Response has no data")
 )
 
 // ////////////////////////////////////////////////////////////////////////////////// //
@@ -229,11 +230,11 @@ func (api *API) doRequest(endpoint string, query req.Query, response any) error 
 // parseResponse parses default Icecast response
 func parseResponse(resp *iceResponse) error {
 	if resp == nil {
-		return fmt.Errorf("Response has no data")
+		return ErrNoRespData
 	}
 
 	if resp.Return != 1 {
-		return fmt.Errorf(resp.Message)
+		return errors.New(resp.Message)
 	}
 
 	return nil
